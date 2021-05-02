@@ -22,7 +22,8 @@
 #define IDEC 19
 #define IINC 20
 #define ISLOUD 21
-#define PRINT 22
+#define PRNTCHR 22
+#define PRNTVAR 23
 
 #define STACK_SIZE 512
 #define MEMORY_SIZE 512
@@ -67,4 +68,5 @@ void mload(void);
 void idec(void);
 void iinc(void);
 void isloud(void);
-void print(void);
+void prntchr(void);
+void prntvar(void);

@@ -30,7 +30,8 @@ void (*operations[]) (void) = {
 	idec,
 	iinc,
 	isloud,
-	print
+	prntchr,
+	prntvar
 };
 
 struct Stack stack;
@@ -168,11 +169,32 @@ void isloud() {
 	push(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0));
 }
 
-void print() {
-	int length = fetch();
+void prntchr() {
+	sendSymbol((char) fetch());
+}
+
+void prntvar() {
+	int varValue = memory[fetch()];
+	
+	if (varValue == 0) {
+		sendSymbol('0');
+	} else {
+		char varString[10] = {0,0,0,0,0,0,0,0,0,0};
+	
+		int i = 9;
+		
+		while (varValue != 0) {
+			varString[i] = (char) (48 + (varValue % 10));
 			
-	for (int i = 0; i < length; i++) {
-		sendSymbol((char) pop());
+			varValue = varValue / 10;
+			i--;
+		}
+		
+		for (uint16_t j = 0; j < sizeof(varString); j++) {
+			if (varString[j] != 0) {
+				sendSymbol(varString[j]);
+			}
+		}
 	}
 }
 
